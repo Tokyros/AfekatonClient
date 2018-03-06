@@ -1,0 +1,14 @@
+
+<div class="login-container" (keyup.enter)="login(userInput.value, passwordInput.value)">
+  <div *ngIf="hasError">User or password incorrect!</div>
+  <mat-form-field>
+    <input #userInput type="text" matInput placeholder="שם משתמש">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input #passwordInput type="password" matInput placeholder="סיסמא">
+  </mat-form-field>
+
+  <button (click)="login(userInput.value, passwordInput.value)" mat-button>התחבר!</button>
+
+</div>

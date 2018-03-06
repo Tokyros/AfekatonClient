@@ -1,0 +1,21 @@
+<h1>Welcome: {{auth.user?.username}}</h1>
+
+<button (click)="updateQuestion()">UPDATE</button>
+
+<button (click)="mode='show'">SHOW QUESTIONS</button>
+<button (click)="mode='add'">ADD QUESTION</button>
+
+<div *ngIf="mode === 'show'">
+  <h2>Here are all the questions:</h2>
+  <div *ngFor="let question of questions">
+    <app-question [question]="question" (questionAnswered)="submitAnswer(question, $event.answer); mode = 'show'"></app-question>
+  </div>
+</div>
+
+<div *ngIf="mode === 'add'">
+  <mat-form-field>
+    <textarea style="width: 100%;" #questionInp matInput type="text" placeholder="Question Body"></textarea>
+  </mat-form-field>
+
+  <button (click)="submitQuestion(questionInp.value)">SUBMIT QUESTION</button>
+</div>

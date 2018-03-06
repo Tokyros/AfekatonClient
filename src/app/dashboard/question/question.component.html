@@ -1,0 +1,12 @@
+<div style="align-content: center; text-align: center; line-height: 1.2; background-color: aliceblue">
+  <h1>{{question?.author?.username}} Asks:</h1>
+  <span>{{question?.question}}</span>
+
+  <app-answer *ngFor="let answer of question.answers" [answer]="answer"></app-answer>
+
+  <span style="display: block; font-size: 10px">{{question?.author?.email}}</span>
+
+  <mat-form-field>
+    <input (keyup.enter)="submitAnswer(answerInp.value);" style="width: 100%;" #answerInp matInput type="text" placeholder="Answer Body">
+  </mat-form-field>
+</div>
