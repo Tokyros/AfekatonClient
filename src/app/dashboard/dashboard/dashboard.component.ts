@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {AuthorizationService} from "../../shared/authorization.service";
 import {QuestionService} from "../question.service";
 import {Question} from "../question";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-dashboard',
@@ -34,6 +35,11 @@ export class DashboardComponent implements OnInit {
   submitQuestion(question: string) {
     this.questionService.submitQuestion(this.auth.user, question).subscribe((res) => {
       this.updateQuestion();
+    }, (err) => {
+      console.log(err)
+      if (err.status === 400){
+        alert(err.error.errors[0].defaultMessage)
+      }
     });
   }
 
