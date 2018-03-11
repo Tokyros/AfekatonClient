@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {User} from "../../models/user";
-import {Question} from "./question";
-import {Answer} from "./answer";
+import {User} from "../shared/models/user";
+import {Question} from "../shared/models/question";
+import {Answer} from "../shared/models/answer";
 
 @Injectable()
 export class QuestionService {

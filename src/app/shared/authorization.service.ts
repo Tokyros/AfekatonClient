@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {HttpParams} from "@angular/common/http";
-import {User} from "../../models/user";
+import {User} from "./models/user";
 import {HttpHeaders} from "@angular/common/http";
 
 @Injectable()
@@ -27,5 +27,9 @@ export class AuthorizationService {
   set user(value: User) {
     console.log("Assining user to app" + value)
     this._user = value;
+  }
+
+  signup(user: User) {
+    return this.httpClient.post(AuthorizationService.BASE_URL + "/user", user)
   }
 }

@@ -10,10 +10,12 @@ import {LoginComponent} from "./shared/login/login.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {DashboardComponent} from "./dashboard/dashboard/dashboard.component";
 import {DashboardModule} from "./dashboard/dashboard.module";
+import {SignupComponent} from "./shared/signup/signup.component";
 
 
 const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
+  {path: 'signup', component: SignupComponent},
   {path: 'main', component: DashboardComponent},
   {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: '**', component: NotFoundComponent}

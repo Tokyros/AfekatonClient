@@ -4,7 +4,10 @@ import {AuthorizationService} from "./authorization.service";
 import {HttpClientModule} from "@angular/common/http";
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LoginComponent } from './login/login.component';
-import {MatFormFieldModule, MatInputModule, MatButtonModule} from "@angular/material";
+import {MatFormFieldModule, MatInputModule, MatButtonModule, MatCardModule} from "@angular/material";
+import { SignupComponent } from './signup/signup.component';
+import {RouterModule} from "@angular/router";
+import {ReactiveFormsModule, FormsModule} from "@angular/forms";
 
 @NgModule({
   imports: [
@@ -12,12 +15,16 @@ import {MatFormFieldModule, MatInputModule, MatButtonModule} from "@angular/mate
     HttpClientModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCardModule,
+    RouterModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   exports: [MatFormFieldModule,
     MatInputModule,
     MatButtonModule],
   providers: [AuthorizationService],
-  declarations: [NotFoundComponent, LoginComponent]
+  declarations: [NotFoundComponent, LoginComponent, SignupComponent]
 })
 export class SharedModule { }

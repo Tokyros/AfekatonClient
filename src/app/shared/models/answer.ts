@@ -1,5 +1,6 @@
-import {User} from "../../models/user";
+import {User} from "./user";
 import {Question} from "./question";
+
 export class Answer {
   answer: string;
   author: User;

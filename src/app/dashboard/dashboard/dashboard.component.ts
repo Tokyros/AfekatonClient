@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthorizationService} from "../../shared/authorization.service";
 import {QuestionService} from "../question.service";
-import {Question} from "../question";
+import {Question} from "../../shared/models/question";
 import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({

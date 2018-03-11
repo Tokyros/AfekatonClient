@@ -1,6 +1,6 @@
-import {User} from "../../models/user";
+import {User} from "./user";
 import {Answer} from "./answer";
-import {Category} from "./category";
+import {Category} from "../../dashboard/category";
 export class Question {
   answers?: Answer[];
   author?: User;
