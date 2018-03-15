@@ -1,6 +1,6 @@
 <div style="align-content: center; text-align: center; line-height: 1.2; background-color: aliceblue">
   <h1>{{question?.author?.username}} Asks:</h1>
-  <span>{{question?.question}}</span>
+  <span [innerHtml]="question?.question"></span>
 
   <app-answer *ngFor="let answer of question.answers" [answer]="answer"></app-answer>
 

@@ -11,6 +11,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {DashboardComponent} from "./dashboard/dashboard/dashboard.component";
 import {DashboardModule} from "./dashboard/dashboard.module";
 import {SignupComponent} from "./shared/signup/signup.component";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {TokenInterceptorService} from "./token-interceptor.service";
 
 
 const appRoutes: Routes = [
@@ -32,7 +34,9 @@ const appRoutes: Routes = [
     DashboardModule,
     RouterModule.forRoot(appRoutes, {enableTracing: true})
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

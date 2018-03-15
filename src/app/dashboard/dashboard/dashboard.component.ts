@@ -14,11 +14,12 @@ export class DashboardComponent implements OnInit {
   public questions: any[];
 
   private mode: string = "show";
+  public body: any;
 
   constructor(private router: Router, public auth: AuthorizationService, private questionService: QuestionService) { }
 
   ngOnInit() {
-    if (this.auth.user == null){
+    if (this.auth.token == null){
       this.router.navigateByUrl("");
     } else {
       this.updateQuestion()
@@ -32,8 +33,8 @@ export class DashboardComponent implements OnInit {
     })
   };
 
-  submitQuestion(question: string) {
-    this.questionService.submitQuestion(this.auth.user, question).subscribe((res) => {
+  submitQuestion() {
+    this.questionService.submitQuestion(this.auth.user, this.body).subscribe((res) => {
       this.updateQuestion();
     }, (err) => {
       console.log(err)
@@ -47,6 +48,10 @@ export class DashboardComponent implements OnInit {
     this.questionService.postAnswer(this.auth.user, question, answer).subscribe((res) => {
       this.updateQuestion();
     })
+  }
+
+  editor($event){
+    console.log($event)
   }
 
 
