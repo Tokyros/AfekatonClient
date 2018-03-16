@@ -42,4 +42,10 @@ export class AuthorizationService {
     const token = this.getToken();
     return jwt.tokenNotExpired(null, token);
   }
+
+  whoAmI() {
+    this.httpClient.get(AuthorizationService.BASE_URL + "/users/whoAmI").subscribe((user: User) => {
+      this.user = user;
+    })
+  }
 }

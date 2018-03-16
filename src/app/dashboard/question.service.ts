@@ -11,24 +11,31 @@ export class QuestionService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public getQuestions(){
-    return this.httpClient.get(this.BASE_URL + "question");
+  public getQuestions(query?: string){
+    if (query){
+      return this.httpClient.get(this.BASE_URL + "question?query="+query);
+    } else {
+      return this.httpClient.get(this.BASE_URL + "question");
+    }
   }
 
-  submitQuestion(user: User, question: string) {
-    return this.httpClient.post(this.BASE_URL + "question", {
-      category: {course: {id: 90905}},
-      customCategory: "test",
-      question,
-      author: user
-    })
+  submitQuestion(question: string) {
+    let newQuestion = new Question();
+    newQuestion.messageContent = question;
+    newQuestion.relatedCourse = {name: 'אלגברה ליניארית'};
+    newQuestion.relatedDepartment = "SOFTWARE";
+    return this.httpClient.post(this.BASE_URL + "question", newQuestion);
   }
 
-  postAnswer(user: User, question: Question, answer: string) {
-    let newAnswer = new Answer();
-    newAnswer.answer = answer;
-    newAnswer.author = <User>{id: user.id};
-    newAnswer.question = <Question>{id: question.id};
-    return this.httpClient.post(this.BASE_URL + "answer", newAnswer);
+  postAnswer(question: number, answer: string) {
+    return this.httpClient.post(this.BASE_URL + `question/${question}/comment`, answer);
+  }
+
+  upvote(messageId: number) {
+    return this.httpClient.get(this.BASE_URL + `question/${messageId}/upvote`);
+  }
+
+  downvote(messageId: number) {
+    return this.httpClient.get(this.BASE_URL + `question/${messageId}/downvote`);
   }
 }

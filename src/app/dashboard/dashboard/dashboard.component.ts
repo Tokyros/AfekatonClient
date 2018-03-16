@@ -11,47 +11,56 @@ import {HttpErrorResponse} from "@angular/common/http";
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  public questions: any[];
+  public questions: Question[];
 
-  private mode: string = "show";
+  public mode: string = "show";
   public body: any;
 
-  constructor(private router: Router, public auth: AuthorizationService, private questionService: QuestionService) { }
+  constructor(private router: Router, public auth: AuthorizationService, private questionService: QuestionService) {
+
+  }
 
   ngOnInit() {
     if (this.auth.token == null){
       this.router.navigateByUrl("");
     } else {
+      this.auth.whoAmI();
       this.updateQuestion()
-      // setInterval(this.updateQuestion, 10000);
     }
   }
 
-  private updateQuestion = () => {
-    this.questionService.getQuestions().subscribe((questions: any[]) => {
+  private updateQuestion = (query?: string) => {
+    this.questionService.getQuestions(query).subscribe((questions: any[]) => {
       this.questions = questions;
     })
   };
 
-  submitQuestion() {
-    this.questionService.submitQuestion(this.auth.user, this.body).subscribe((res) => {
-      this.updateQuestion();
-    }, (err) => {
-      console.log(err)
-      if (err.status === 400){
-        alert(err.error.errors[0].defaultMessage)
-      }
-    });
-  }
-
-  submitAnswer(question: Question, answer: string){
-    this.questionService.postAnswer(this.auth.user, question, answer).subscribe((res) => {
+  upvoteQuestion(question: Question){
+    this.questionService.upvote(question.messageId).subscribe(() => {
       this.updateQuestion();
     })
   }
 
-  editor($event){
-    console.log($event)
+  downvoteQuestion(question: Question){
+    this.questionService.downvote(question.messageId).subscribe(() => {
+      this.updateQuestion();
+    })
+  }
+
+  submitQuestion() {
+    this.questionService.submitQuestion(this.body).subscribe((res) => {
+      this.updateQuestion();
+    });
+  }
+
+  submitAnswer(question: Question, answer: string){
+    this.questionService.postAnswer(question.messageId, answer).subscribe((res) => {
+      this.updateQuestion();
+    })
+  }
+
+  onQuestionButtonClicked(question: Question){
+    this.submitAnswer(question, "TEST");
   }
 
 
