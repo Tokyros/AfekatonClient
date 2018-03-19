@@ -6,12 +6,14 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { LoginComponent } from './login/login.component';
 import {
   MatFormFieldModule, MatInputModule, MatButtonModule, MatCardModule, MatSelectModule,
-  MatToolbarModule, MatTabsModule, MatExpansionModule, MatDividerModule
+  MatToolbarModule, MatTabsModule, MatExpansionModule, MatDividerModule, MatAutocompleteModule, MatDialogModule,
+  MatChipsModule
 } from "@angular/material";
 import { SignupComponent } from './signup/signup.component';
 import {RouterModule} from "@angular/router";
 import {ReactiveFormsModule, FormsModule} from "@angular/forms";
 import {QuillModule} from "ngx-quill";
+import {PostQuestionComponent} from "../dashboard/post-question/post-question.component";
 
 @NgModule({
   imports: [
@@ -38,9 +40,15 @@ import {QuillModule} from "ngx-quill";
     MatExpansionModule,
     MatCardModule,
     MatDividerModule,
+    MatAutocompleteModule,
+    MatDialogModule,
+    MatChipsModule,
+    ReactiveFormsModule,
+    FormsModule,
     QuillModule,
     FormsModule
   ],
+  entryComponents: [PostQuestionComponent],
   providers: [AuthorizationService],
   declarations: [NotFoundComponent, LoginComponent, SignupComponent]
 })

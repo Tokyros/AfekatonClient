@@ -9,7 +9,7 @@ import * as jwt from 'angular2-jwt'
 @Injectable()
 export class AuthorizationService {
 
-  private static BASE_URL = "http://localhost:8080"
+  public static BASE_URL = "http://localhost:8080"
   private _user: User;
   public token: string;
 
@@ -35,7 +35,7 @@ export class AuthorizationService {
   }
 
   public getToken(){
-    return localStorage.getItem("token");
+    return sessionStorage.getItem("token");
   }
 
   public isAuthenticated(): boolean{

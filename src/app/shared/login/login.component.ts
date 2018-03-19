@@ -17,12 +17,13 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     // this.login("ShaharR", "123456")
+    sessionStorage.removeItem("token")
   }
 
   login(username: string, password: string){
     this.auth.login(username, password).subscribe((response: HttpResponse<any>) => {
       this.auth.token = response.headers.get("Authorization");
-      localStorage.setItem("token", response.headers.get("Authorization"));
+      sessionStorage.setItem("token", response.headers.get("Authorization"));
       this.router.navigateByUrl("main");
     }, (err) => {
       this.hasError = true;

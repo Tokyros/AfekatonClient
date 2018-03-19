@@ -19,12 +19,8 @@ export class QuestionService {
     }
   }
 
-  submitQuestion(question: string) {
-    let newQuestion = new Question();
-    newQuestion.messageContent = question;
-    newQuestion.relatedCourse = {name: 'אלגברה ליניארית'};
-    newQuestion.relatedDepartment = "SOFTWARE";
-    return this.httpClient.post(this.BASE_URL + "question", newQuestion);
+  submitQuestion(question: Question) {
+    return this.httpClient.post(this.BASE_URL + "question", question);
   }
 
   postAnswer(question: number, answer: string) {
@@ -37,5 +33,9 @@ export class QuestionService {
 
   downvote(messageId: number) {
     return this.httpClient.get(this.BASE_URL + `question/${messageId}/downvote`);
+  }
+
+  deleteQuestion(question: Question) {
+    return this.httpClient.get(this.BASE_URL + `question/${question.messageId}/delete`);
   }
 }

@@ -1,71 +1,44 @@
-
-
-<mat-tab-group [dynamicHeight]="true" dir="rtl" style="height: 100%">
-  <mat-tab label="שאלות">
-
-    <h1>ברוכים המתפנקים: {{auth.user?.username}}</h1>
+<div dir="rtl">
+  <button (click)="openQuestionDialog()" mat-fab color="primary" style="position: fixed; top: 10px; right: 10px">+</button>
 
     <div style="width: 60%; margin: auto">
       <mat-input-container style="width: 84%;">
         <input matInput placeholder="חיפוש" #query (keyup.enter)="updateQuestion(query.value)">
       </mat-input-container>
-      <button (click)="updateQuestion(query.value)" mat-raised-button color="primary" style="width: 15%">חפש</button>
+      <button (click)="updateQuestions(query.value)" mat-raised-button color="primary" style="width: 15%">חפש</button>
     </div>
 
     <div style="display: flex; flex-direction: row">
-      <div style="flex-grow: 1"></div>
-    <div *ngIf="questions" style="flex-grow: 1">
-      <h1>חם</h1>
-      <div *ngFor="let question of questions.slice(0, 20)" style="width: 100%; margin: auto; margin-top: 20px">
-        <mat-card>
-          <mat-toolbar style="margin: 10px 0">
-            <span>{{question.messageAuthor.username}} שאל: </span>
-            <span style="flex: 1 1 auto"></span>
-            <button class="fa fa-thumbs-up" mat-raised-button color="primary" (click)="upvoteQuestion(question)"></button>
-            <span style="width: 10px"></span>
-            <button class="fa fa-thumbs-down" mat-raised-button color="primary" (click)="downvoteQuestion(question)"></button>
-            <span style="margin: 0 5px">דירוג: {{question.rating}}</span>
-          </mat-toolbar>
+      <div *ngIf="questions" style="flex-grow: 1">
+        <div *ngFor="let question of questions" style="width: 75%; margin: auto; margin-top: 20px">
+          <mat-card>
+            <mat-toolbar style="margin: 10px 0">
 
-          <quill-editor [readOnly]="true" [modules]="{toolbar: []}" [ngModel]="question.messageContent" ></quill-editor>
+              <mat-chip-list >
+                <mat-chip [color]="question.messageAuthor.afekaRole === 'מרצה' ? 'warn' : 'primary'" selected="true">{{question.messageAuthor.username}} {{question.messageAuthor.afekaRole}}</mat-chip>
+                <mat-chip color="primary" selected="true">{{question.updateDate | date: 'short'}}</mat-chip>
+                <mat-chip color="primary" selected="true">{{question.creationDate | date: 'short'}}</mat-chip>
+                <mat-chip color="primary" selected="true">{{question.relatedCourse.name}}</mat-chip>
+                <mat-chip (click)="responseToQuestion(question)" color="primary" selected="true" class="fa fa-reply"></mat-chip>
+                <mat-chip (click)="openQuestionForEdit(question)" color="warn" selected="true" class="fa fa-edit" *ngIf="question.messageAuthor.username === auth.user.username"></mat-chip>
+                <mat-chip (click)="deleteQuestion(question)" color="warn" selected="true" class="fa fa-trash" *ngIf="question.messageAuthor.username === auth.user.username"></mat-chip>
+              </mat-chip-list>
+              <span style="flex: 1 1 auto"></span>
+              <mat-chip style="margin-left: 5px;" color="warn" selected="true">{{question.rating}}</mat-chip>
+              <button class="fa fa-thumbs-up" mat-raised-button color="primary" (click)="upvoteQuestion(question)"></button>
+              <span style="width: 10px"></span>
+              <button class="fa fa-thumbs-down" mat-raised-button color="primary" (click)="downvoteQuestion(question)"></button>
+            </mat-toolbar>
 
-          <button (click)="onQuestionButtonClicked(question)" color="warn" style="margin: 10px 0" mat-raised-button>{{question.answering ? 'הגב' : 'הוסף תגובה'}}</button>
-
-        </mat-card>
+            <mat-card>
+              <div [froalaView]="question.messageContent"></div>
+            </mat-card>
+          </mat-card>
+        </div>
       </div>
+
     </div>
-      <div style="flex-grow: 1"></div>
-    <div *ngIf="questions" style="flex-grow: 1">
-      <h1>חשוב</h1>
-      <div *ngFor="let question of questions.slice(0, 20)" style="width: 100%; margin: auto; margin-top: 20px">
-        <mat-card>
-          <mat-toolbar style="margin: 10px 0">
-            <span>{{question.messageAuthor.username}} שאל: </span>
-            <span style="flex: 1 1 auto"></span>
-            <button class="fa fa-thumbs-up" mat-raised-button color="primary" (click)="upvoteQuestion(question)"></button>
-            <span style="width: 10px"></span>
-            <button class="fa fa-thumbs-down" mat-raised-button color="primary" (click)="downvoteQuestion(question)"></button>
-            <span style="margin: 0 5px">דירוג: {{question.rating}}</span>
-          </mat-toolbar>
 
-          <quill-editor [readOnly]="true" [modules]="{toolbar: []}" [ngModel]="question.messageContent" ></quill-editor>
-
-          <button (click)="onQuestionButtonClicked(question)" color="warn" style="margin: 10px 0" mat-raised-button>{{question.answering ? 'הגב' : 'הוסף תגובה'}}</button>
-
-        </mat-card>
-      </div>
-    </div>
-      <div style="flex-grow: 1"></div>
-    </div>
-  </mat-tab>
-  <mat-tab label="הוסף שאלה">
-      <div dir="ltr" style="width: 60%; margin: auto; margin-top: 20px">
-        <quill-editor [style]="{'height': '400px'}" [(ngModel)]="body"></quill-editor>
-        <button style="float: right; margin-top: 10px" mat-raised-button [disabled]="!body" (click)="submitQuestion()">שאל נא בני</button>
-      </div>
-  </mat-tab>
-</mat-tab-group>
-
-
+</div>
 
 

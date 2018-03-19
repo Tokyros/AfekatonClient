@@ -4,6 +4,9 @@ import {AuthorizationService} from "../../shared/authorization.service";
 import {QuestionService} from "../question.service";
 import {Question} from "../../shared/models/question";
 import {HttpErrorResponse} from "@angular/common/http";
+import {CourseService} from "../course.service";
+import {MatOptionSelectionChange, MatAutocompleteSelectedEvent, MatDialog} from "@angular/material";
+import {PostQuestionComponent} from "../post-question/post-question.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -13,10 +16,8 @@ import {HttpErrorResponse} from "@angular/common/http";
 export class DashboardComponent implements OnInit {
   public questions: Question[];
 
-  public mode: string = "show";
-  public body: any;
 
-  constructor(private router: Router, public auth: AuthorizationService, private questionService: QuestionService) {
+  constructor(private dialog: MatDialog, private router: Router, public auth: AuthorizationService, private questionService: QuestionService, private coursesService: CourseService) {
 
   }
 
@@ -25,11 +26,11 @@ export class DashboardComponent implements OnInit {
       this.router.navigateByUrl("");
     } else {
       this.auth.whoAmI();
-      this.updateQuestion()
+      this.updateQuestions()
     }
   }
 
-  private updateQuestion = (query?: string) => {
+  private updateQuestions = (query?: string) => {
     this.questionService.getQuestions(query).subscribe((questions: any[]) => {
       this.questions = questions;
     })
@@ -37,31 +38,29 @@ export class DashboardComponent implements OnInit {
 
   upvoteQuestion(question: Question){
     this.questionService.upvote(question.messageId).subscribe(() => {
-      this.updateQuestion();
+      this.updateQuestions();
     })
   }
 
   downvoteQuestion(question: Question){
     this.questionService.downvote(question.messageId).subscribe(() => {
-      this.updateQuestion();
+      this.updateQuestions();
     })
   }
 
-  submitQuestion() {
-    this.questionService.submitQuestion(this.body).subscribe((res) => {
-      this.updateQuestion();
-    });
+  openQuestionDialog(){
+    (<any>this.dialog).open(PostQuestionComponent).afterClosed().subscribe(() => this.updateQuestions())
   }
 
-  submitAnswer(question: Question, answer: string){
-    this.questionService.postAnswer(question.messageId, answer).subscribe((res) => {
-      this.updateQuestion();
-    })
+  responseToQuestion(question: Question){
+    (<any>this.dialog).open(PostQuestionComponent, {data: question}).afterClosed().subscribe(console.log)
   }
 
-  onQuestionButtonClicked(question: Question){
-    this.submitAnswer(question, "TEST");
+  openQuestionForEdit(question: Question){
+    (<any>this.dialog).open(PostQuestionComponent, {data: question}).afterClosed().subscribe(() => this.updateQuestions())
   }
 
-
+  deleteQuestion(question: Question){
+    this.questionService.deleteQuestion(question).subscribe(() => this.updateQuestions());
+  }
 }
