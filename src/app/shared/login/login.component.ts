@@ -3,6 +3,8 @@ import {AuthorizationService} from "../authorization.service";
 import {User} from "../models/user";
 import {Router} from "@angular/router";
 import {HttpResponse} from "@angular/common/http";
+import {MatDialog} from "@angular/material";
+import {SignupComponent} from "../signup/signup.component";
 
 @Component({
   selector: 'app-login',
@@ -13,7 +15,7 @@ export class LoginComponent implements OnInit {
 
   private hasError;
 
-  constructor(private auth: AuthorizationService, private router: Router) { }
+  constructor(private auth: AuthorizationService, private router: Router, private dialog: MatDialog) { }
 
   ngOnInit() {
     // this.login("ShaharR", "123456")
@@ -28,6 +30,10 @@ export class LoginComponent implements OnInit {
     }, (err) => {
       this.hasError = true;
     })
+  }
+
+  openRegisterDialog(){
+    (<any>this.dialog).open(SignupComponent);
   }
 
 }

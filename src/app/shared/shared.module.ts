@@ -48,7 +48,7 @@ import {PostQuestionComponent} from "../dashboard/post-question/post-question.co
     QuillModule,
     FormsModule
   ],
-  entryComponents: [PostQuestionComponent],
+  entryComponents: [PostQuestionComponent, SignupComponent],
   providers: [AuthorizationService],
   declarations: [NotFoundComponent, LoginComponent, SignupComponent]
 })

@@ -17,10 +17,8 @@ import {TokenInterceptorService} from "./token-interceptor.service";
 
 const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
-  {path: 'signup', component: SignupComponent},
   {path: 'main', component: DashboardComponent},
-  {path: '', redirectTo: '/login', pathMatch: 'full'},
-  {path: '**', component: NotFoundComponent}
+  {path: '**', redirectTo: '/login', pathMatch: 'full'},
 ]
 
 @NgModule({

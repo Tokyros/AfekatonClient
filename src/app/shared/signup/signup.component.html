@@ -1,24 +1,28 @@
-<mat-card style="width: 50%; margin: auto">
-  SIGNUP
+<mat-card dir="rtl">
+  <mat-card-header>
+    <mat-card-title>הרשמה</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form (keyup.enter)="signUp()" [formGroup]="user">
+      <mat-form-field style="width: 100%">
+        <input matInput placeholder="Email" formControlName="email">
+        <mat-error *ngIf="user.get('email').hasError('email')">
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="user.hasError('required')">
+          Email is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <br>
+
+      <mat-form-field style="width: 100%">
+        <input type="password" matInput placeholder="Password" formControlName="password">
+        <mat-error *ngIf="user.get('password').hasError('required')">
+          Password is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="signUp()">הרשם</button>
+    </form>
+  </mat-card-content>
 </mat-card>
-
-<form style="min-width: 150px; max-width: 500px; width: 100%; margin: auto" (keyup.enter)="signUp()" [formGroup]="user">
-  <mat-form-field style="width: 100%">
-    <input matInput placeholder="Email" formControlName="email">
-    <mat-error *ngIf="user.get('email').hasError('email')">
-      Please enter a valid email address
-    </mat-error>
-    <mat-error *ngIf="user.hasError('required')">
-      Email is <strong>required</strong>
-    </mat-error>
-  </mat-form-field>
-
-  <br>
-
-  <mat-form-field style="width: 100%">
-    <input matInput placeholder="Password" formControlName="password">
-    <mat-error *ngIf="user.get('password').hasError('required')">
-      Password is <strong>required</strong>
-    </mat-error>
-  </mat-form-field>
-</form>

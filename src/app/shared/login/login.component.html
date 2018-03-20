@@ -1,5 +1,8 @@
-
-<div class="login-container" (keyup.enter)="login(userInput.value, passwordInput.value)">
+<mat-card dir="rtl" class="login-card" (keyup.enter)="login(userInput.value, passwordInput.value)">
+  <mat-card-header>
+    <mat-card-title>התחברות</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
   <div *ngIf="hasError">User or password incorrect!</div>
   <mat-form-field>
     <input #userInput type="text" matInput placeholder="שם משתמש">
@@ -9,8 +12,11 @@
     <input #passwordInput type="password" matInput placeholder="סיסמא">
   </mat-form-field>
 
-  <button (click)="login(userInput.value, passwordInput.value)" mat-button>התחבר!</button>
+  <button mat-raised-button (click)="login(userInput.value, passwordInput.value)" mat-button>התחבר</button>
 
-  <a routerLink="/signup">הרשמה</a>
 
-</div>
+  </mat-card-content>
+  <mat-card-footer style="direction: ltr">
+    <button style="margin: 5px" color="primary" (click)="openRegisterDialog()" mat-raised-button routerLink="/signup">הרשם</button>
+  </mat-card-footer>
+</mat-card>

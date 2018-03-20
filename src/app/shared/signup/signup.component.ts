@@ -21,13 +21,9 @@ export class SignupComponent implements OnInit {
   }
 
   signUp(){
-    // if (!this.user.valid) return
-    console.log("Signing")
     this.auth.signup(this.user.value).subscribe((res) => {
-      console.log(res)
       this.router.navigateByUrl("/main")
     }, (err) => {
-      console.log(err.error.errors)
       let customErrors = {};
       err.error.errors.forEach((errorItem) => {
         customErrors[errorItem.field] = errorItem.defaultMessage;

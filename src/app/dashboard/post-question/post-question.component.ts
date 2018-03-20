@@ -6,6 +6,7 @@ import {MatAutocompleteSelectedEvent, MAT_DIALOG_DATA, MatDialogRef} from "@angu
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators/map";
 import {Question} from "../../shared/models/question";
+import {Course} from "../../shared/models/Course";
 
 @Component({
   selector: 'app-post-question',
@@ -15,13 +16,12 @@ import {Question} from "../../shared/models/question";
 export class PostQuestionComponent implements OnInit {
 
   coursesFormControl: FormControl = new FormControl(null, [Validators.nullValidator]);
-  courseOptions: Observable<string[]>;
-  courses: string[] = [];
+  courseOptions: Observable<Course[]>;
+  courses: Course[] = [];
 
   question: Question = new Question();
 
-  constructor(private coursesService: CourseService, private questionService: QuestionService, public dialogRef: MatDialogRef<PostQuestionComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(private coursesService: CourseService, private questionService: QuestionService, public dialogRef: MatDialogRef<PostQuestionComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
     if (data) {
       console.log(data)
       this.question = data;
@@ -35,9 +35,9 @@ export class PostQuestionComponent implements OnInit {
     this.courseOptions = this.coursesFormControl.valueChanges.pipe(map(val => this.courseFilter(val)));
   }
 
-  courseFilter(val: any): string[] {
+  courseFilter(val: any): Course[] {
     if (typeof val === 'object') return;
-    return this.courses.filter((option: any) =>
+    return this.courses.filter((option: Course) =>
       (option.id + "").toLowerCase().indexOf((val + "").toLowerCase()) > -1 ||
     option.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
   }
