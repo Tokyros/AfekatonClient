@@ -10,4 +10,5 @@ export class Message {
   updateDate: Date;
   messageComments: Message[];
   rating: number;
+  userRatings: {[username: string]: number}
 }

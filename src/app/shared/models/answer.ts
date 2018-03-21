@@ -3,5 +3,6 @@ import {Question} from "./question";
 import {Message} from "./message";
 
 export class Answer extends Message{
-  isCorrect: boolean;
+  correct: boolean;
+  questionId: number;
 }

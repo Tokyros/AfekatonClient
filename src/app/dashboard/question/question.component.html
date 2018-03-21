@@ -1,12 +1,27 @@
-<div style="align-content: center; text-align: center; line-height: 1.2; background-color: aliceblue">
-  <h1>{{question?.author?.username}} Asks:</h1>
-  <span [innerHtml]="question?.question"></span>
+<mat-card style="margin: 10px 75px; background-color: #607d8b">
+  <mat-toolbar style="margin: 5px 0">
+    <mat-chip-list>
+      <mat-chip [color]="question.messageAuthor.afekaRole === 'מרצה' ? 'warn' : 'primary'" selected="true">{{question.messageAuthor.username}} {{question.messageAuthor.department}} {{question.messageAuthor.afekaRole}}</mat-chip>
+      <mat-chip color="primary" selected="true">{{question.creationDate | date: 'short'}}</mat-chip>
+      <mat-chip *ngIf="question.relatedCourse" color="primary" selected="true">{{question.relatedCourse.name}}</mat-chip>
+      <mat-chip (click)="openResponseDialog(question)" color="primary" selected="true" class="fa fa-reply"></mat-chip>
+      <mat-chip (click)="openEditDialog(question)" color="warn" selected="true" class="fa fa-edit" *ngIf="question.messageAuthor.username === auth.user.username"></mat-chip>
+      <mat-chip (click)="deleteQuestion(question)" color="warn" selected="true" class="fa fa-trash" *ngIf="question.messageAuthor.username === auth.user.username"></mat-chip>
+    </mat-chip-list>
+  </mat-toolbar>
 
-  <app-answer *ngFor="let answer of question.answers" [answer]="answer"></app-answer>
+  <div style="display: flex; flex-direction: row">
+    <div style="flex-direction: column; display: flex; justify-content: center; margin-left: 20px; text-align: center">
+      <span [style.color]="getUpvoteColor()" class="fa fa-arrow-up" style="margin-bottom: 5px" mat-raised-button (click)="upvoteQuestion(question)"></span>
+      <span color="warn" selected="true">{{question.rating}}</span>
+      <span [style.color]="getDownvoteColor()" class="fa fa-arrow-down" style="margin-top: 5px" mat-raised-button (click)="downvoteQuestion(question)"></span>
+    </div>
 
-  <span style="display: block; font-size: 10px">{{question?.author?.email}}</span>
+    <mat-card style="flex-grow: 1">
+      <span class="bottom-corner-left" color="primary" selected="true">עודכן לאחרונה - {{question.updateDate | date: 'short'}}</span>
+      <div [froalaView]="question.messageContent"></div>
+    </mat-card>
+  </div>
 
-  <mat-form-field>
-    <input (keyup.enter)="submitAnswer(answerInp.value);" style="width: 100%;" #answerInp matInput type="text" placeholder="Answer Body">
-  </mat-form-field>
-</div>
+  <app-answer (deleteAnswer)="deleteAnswer(answer.messageId)" (markedCorrect)="markAnswerCorrect(answer.messageId)" [isCorrect]="question.correctAnswerId === answer.messageId" [isAuthor]="question.messageAuthor.username === auth.user.username" (answerUpdated)="onQuestionUpdated()" *ngFor="let answer of question.messageComments" (answerDeleted)="deleteAnswer($event)" [answer]="answer" ></app-answer>
+</mat-card>

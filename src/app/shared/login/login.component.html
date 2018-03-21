@@ -4,11 +4,11 @@
   </mat-card-header>
   <mat-card-content>
   <div *ngIf="hasError">User or password incorrect!</div>
-  <mat-form-field>
+  <mat-form-field style="background-color: transparent !important;">
     <input #userInput type="text" matInput placeholder="שם משתמש">
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field style="background-color: transparent !important;">
     <input #passwordInput type="password" matInput placeholder="סיסמא">
   </mat-form-field>
 
@@ -17,6 +17,6 @@
 
   </mat-card-content>
   <mat-card-footer style="direction: ltr">
-    <button style="margin: 5px" color="primary" (click)="openRegisterDialog()" mat-raised-button routerLink="/signup">הרשם</button>
+    <button style="margin: 5px" color="primary" (click)="openRegisterDialog()" mat-raised-button>הרשם</button>
   </mat-card-footer>
 </mat-card>

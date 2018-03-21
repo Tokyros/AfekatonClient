@@ -28,6 +28,7 @@ import {PostQuestionComponent} from "../dashboard/post-question/post-question.co
     FormsModule,
     MatToolbarModule,
     MatSelectModule,
+    MatAutocompleteModule,
     QuillModule
   ],
   exports: [

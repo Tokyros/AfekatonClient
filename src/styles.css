@@ -8,6 +8,10 @@
    License: none (public domain)
 */
 
+body {
+  background-color: #e6e6e6;
+}
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -53,6 +57,22 @@ table {
 }
 
 .afeka-color {
-  background-color:  #5b994a !important
+  /*background-color:  #5b994a !important*/
 }
 
+.bottom-corner-left {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  font-family: sans-serif;
+  font-weight:bolder;
+  font-size: 13px;
+}
+
+.mat-primary{
+  background-color: #009688 !important;
+}
+
+.mat-chip-list-wrapper{
+  align-items: center !important;
+}

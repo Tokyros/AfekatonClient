@@ -3,25 +3,49 @@
     <mat-card-title>הרשמה</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <form (keyup.enter)="signUp()" [formGroup]="user">
-      <mat-form-field style="width: 100%">
+    <form [formGroup]="user">
+      <mat-form-field style="width: 100%; background-color: transparent !important;">
         <input matInput placeholder="Email" formControlName="email">
-        <mat-error *ngIf="user.get('email').hasError('email')">
-          Please enter a valid email address
-        </mat-error>
-        <mat-error *ngIf="user.hasError('required')">
-          Email is <strong>required</strong>
+        <mat-error *ngIf="user.hasError('required') || user.get('email').hasError('email')">
+חובה להזין אימייל תקין של אפקה
         </mat-error>
       </mat-form-field>
 
       <br>
 
-      <mat-form-field style="width: 100%">
+      <mat-form-field style="width: 100%; background-color: transparent !important;">
         <input type="password" matInput placeholder="Password" formControlName="password">
         <mat-error *ngIf="user.get('password').hasError('required')">
-          Password is <strong>required</strong>
+          חובה לבחור סיסמא בת לפחות 6 תוים
         </mat-error>
       </mat-form-field>
+
+      <mat-form-field style="width: 100%; background-color: transparent !important;">
+        <input matInput formControlName="department" type="text" placeholder="מסלול" [matAutocomplete]="departmentAutoComplete">
+        <mat-error *ngIf="user.get('department').hasError('required')">
+          חובה לבחור מסלול
+        </mat-error>
+        <mat-autocomplete #departmentAutoComplete [displayWith]="formatDepartment">
+          <mat-option [value]="'SOFTWARE'">תוכנה</mat-option>
+          <mat-option [value]="'ELECTRIC'">חשמל</mat-option>
+          <mat-option [value]="'MEDICAL'">רפואית</mat-option>
+          <mat-option [value]="'MECHANICAL'">מכונות</mat-option>
+          <mat-option [value]="'INDUSTRIAL'">תעשייה וניהול</mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field style="width: 100%; background-color: transparent !important;">
+        <input matInput formControlName="afekaRole" type="text" placeholder="תפקיד במכללה" [matAutocomplete]="roleAutoComplete">
+        <mat-error *ngIf="user.get('afekaRole').hasError('required')">
+          חובה לבחור תפקיד
+        </mat-error>
+        <mat-autocomplete #roleAutoComplete [displayWith]="formatRole">
+          <mat-option [value]="'TEACHER'">מרצה</mat-option>
+          <mat-option [value]="'STUDENT'">סטודנט</mat-option>
+          <mat-option [value]="'ADMINISTRATION'">מנהלה</mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
       <button mat-raised-button color="primary" (click)="signUp()">הרשם</button>
     </form>
   </mat-card-content>

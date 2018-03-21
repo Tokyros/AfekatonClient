@@ -1,48 +1,14 @@
 <div dir="rtl">
-  <button (click)="openNewQuestionDialog()" mat-fab color="primary" class="fa fa-plus" style="font-size: xx-large; position: relative; top: 10px; right: 10px"></button>
+  <button (click)="openNewQuestionDialog()" mat-fab color="primary" class="fa fa-plus" style="font-size: xx-large; position: fixed; top: 70px; right: 10px; z-index: 999"></button>
+  <div style="width: 60%; margin: auto; ">
+    <mat-input-container style="width: 84%; background-color: transparent !important;">
+      <input style="background-color: transparent" matInput placeholder="חיפוש" [(ngModel)]="searchQuery">
+    </mat-input-container>
+    <button (click)="updateQuestions()" mat-raised-button color="primary" style="width: 15%">חפש</button>
+  </div>
 
-    <div style="width: 60%; margin: auto">
-      <mat-input-container style="width: 84%;">
-        <input matInput placeholder="חיפוש" #query (keyup.enter)="updateQuestion(query.value)">
-      </mat-input-container>
-      <button (click)="updateQuestions(query.value)" mat-raised-button color="primary" style="width: 15%">חפש</button>
-    </div>
+  <app-question *ngFor="let question of questions" (questionUpdated)="updateQuestions()" [question]="question"></app-question>
 
-    <div style="display: flex; flex-direction: row">
-      <div *ngIf="questions" style="flex-grow: 1">
-        <div *ngFor="let question of questions" style="width: 75%; margin: auto; margin-top: 20px">
-          <mat-card>
-            <mat-toolbar style="margin: 10px 0">
-
-              <mat-chip-list >
-                <mat-chip [color]="question.messageAuthor.afekaRole === 'מרצה' ? 'warn' : 'primary'" selected="true">{{question.messageAuthor.username}} {{question.messageAuthor.afekaRole}}</mat-chip>
-                <mat-chip color="primary" selected="true">{{question.updateDate | date: 'short'}}</mat-chip>
-                <mat-chip color="primary" selected="true">{{question.creationDate | date: 'short'}}</mat-chip>
-                <mat-chip color="primary" selected="true">{{question.relatedCourse.name}}</mat-chip>
-                <mat-chip (click)="openResponseDialog(question)" color="primary" selected="true" class="fa fa-reply"></mat-chip>
-                <mat-chip (click)="openEditDialog(question)" color="warn" selected="true" class="fa fa-edit" *ngIf="question.messageAuthor.username === auth.user.username"></mat-chip>
-                <mat-chip (click)="deleteQuestion(question)" color="warn" selected="true" class="fa fa-trash" *ngIf="question.messageAuthor.username === auth.user.username"></mat-chip>
-              </mat-chip-list>
-              <span style="flex: 1 1 auto"></span>
-              <mat-chip style="margin-left: 5px;" color="warn" selected="true">{{question.rating}}</mat-chip>
-              <button class="fa fa-thumbs-up" mat-raised-button color="primary" (click)="upvoteQuestion(question)"></button>
-              <span style="width: 10px"></span>
-              <button class="fa fa-thumbs-down" mat-raised-button color="primary" (click)="downvoteQuestion(question)"></button>
-            </mat-toolbar>
-
-            <mat-card>
-              <div [froalaView]="question.messageContent"></div>
-            </mat-card>
-
-            <br>
-            <mat-card *ngFor="let answer of question.messageComments">
-              <div [froalaView]="answer.messageContent"></div>
-            </mat-card>
-          </mat-card>
-        </div>
-      </div>
-
-    </div>
 
 </div>
 

@@ -30,7 +30,7 @@ const appRoutes: Routes = [
     SharedModule,
     BrowserAnimationsModule,
     DashboardModule,
-    RouterModule.forRoot(appRoutes, {enableTracing: true})
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}

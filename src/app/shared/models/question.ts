@@ -6,4 +6,5 @@ import {Course} from "./Course";
 export class Question extends Message{
   relatedCourse: Course;
   relatedDepartment: string;
+  correctAnswerId: number;
 }

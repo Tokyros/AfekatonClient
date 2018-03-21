@@ -1,2 +1,30 @@
-<h2>{{answer.author.username}} Answers: </h2>
-<span>{{answer.answer}}</span>
+<mat-card style="margin: 10px auto;">
+  <mat-toolbar style="margin: 5px 0" [style.backgroundColor]="isCorrect ? '#4caf50' : null">
+    <mat-chip-list>
+      <mat-chip [color]="answer.messageAuthor.afekaRole === 'מרצה' ? 'warn' : 'primary'" selected="true">{{answer.messageAuthor.username}} {{answer.messageAuthor.department}} {{answer.messageAuthor.afekaRole}}</mat-chip>
+      <mat-chip color="primary" selected="true">{{answer.creationDate | date: 'short'}}</mat-chip>
+      <mat-chip *ngIf="withCommenting" (click)="openResponseDialog(answer)" color="primary" selected="true" class="fa fa-reply"></mat-chip>
+      <mat-chip (click)="openEditDialog(answer)" color="warn" selected="true" class="fa fa-edit" *ngIf="answer.messageAuthor.username === auth.user.username"></mat-chip>
+      <mat-chip (click)="deleteQuestion(answer)" color="warn" selected="true" class="fa fa-trash" *ngIf="answer.messageAuthor.username === auth.user.username"></mat-chip>
+      <mat-chip (click)="markCorrect()" color="accent" selected="true" class="fa fa-check-circle" *ngIf="isAuthor || auth.user.afekaRole === 'מרצה'"></mat-chip>
+    </mat-chip-list>
+  </mat-toolbar>
+
+  <div style="display: flex; flex-direction: row">
+    <div style="flex-direction: column; display: flex; justify-content: center; margin-left: 20px; text-align: center">
+      <span [style.color]="getUpvoteColor()" class="fa fa-arrow-up" style="margin-bottom: 5px" mat-raised-button (click)="upvoteQuestion(answer)"></span>
+      <span color="warn" selected="true">{{answer.rating}}</span>
+      <span [style.color]="getDownvoteColor()" class="fa fa-arrow-down" style="margin-top: 5px" mat-raised-button (click)="downvoteQuestion(answer)"></span>
+    </div>
+
+    <mat-card style="flex-grow: 1">
+      <span class="bottom-corner-left" color="primary" selected="true">עודכן לאחרונה - {{answer.updateDate | date: 'short'}}</span>
+      <div [froalaView]="answer.messageContent">
+      </div>
+    </mat-card>
+  </div>
+
+  <div *ngIf="withCommenting">
+    <app-answer (answerUpdated)="onQuestionUpdated()" *ngFor="let answer of answer.messageComments" [withCommenting]="false" [answer]="answer" [isAuthor]="isAuthor"></app-answer>
+  </div>
+</mat-card>

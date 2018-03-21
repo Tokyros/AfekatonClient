@@ -5,6 +5,7 @@ import {User} from "./models/user";
 import {HttpHeaders} from "@angular/common/http";
 
 import * as jwt from 'angular2-jwt'
+import {Router} from "@angular/router";
 
 @Injectable()
 export class AuthorizationService {
@@ -13,7 +14,7 @@ export class AuthorizationService {
   private _user: User;
   public token: string;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private router: Router) {
     this.token = this.getToken();
   }
 
@@ -46,6 +47,8 @@ export class AuthorizationService {
   whoAmI() {
     this.httpClient.get(AuthorizationService.BASE_URL + "/users/whoAmI").subscribe((user: User) => {
       this.user = user;
+    }, () => {
+      this.router.navigateByUrl('');
     })
   }
 }

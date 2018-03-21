@@ -26,12 +26,12 @@ export class PostQuestionComponent implements OnInit, OnDestroy {
     width: '80%',
   };
 
-  constructor(private coursesService: CourseService, public dialogRef: MatDialogRef<PostQuestionComponent>, @Inject(MAT_DIALOG_DATA) public data: {entity: Question, isEditing: boolean, isResponse: boolean}) {
+  constructor(private coursesService: CourseService, public dialogRef: MatDialogRef<PostQuestionComponent>, @Inject(MAT_DIALOG_DATA) public data: {entity: Question, isEdit: boolean, isResponse: boolean}) {
   }
 
   ngOnInit() {
     if (this.data) {
-      this.question = Object.assign({}, this.data.entity);
+      this.question = this.data.entity;
       this.coursesFormControl.setValue(this.question.relatedCourse)
     } else {
       this.data = <any>{}
@@ -59,5 +59,11 @@ export class PostQuestionComponent implements OnInit, OnDestroy {
 
   onOptionSelected(){
     this.question.relatedCourse = this.coursesFormControl.value;
+  }
+
+  getSubmitText(){
+    if (this.data.isEdit) return "שמור עריכה";
+    if (this.data.isResponse) return "פרסם תגובה";
+    return "פרסם שאלה חדשה"
   }
 }
