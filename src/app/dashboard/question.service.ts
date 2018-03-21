@@ -23,8 +23,8 @@ export class QuestionService {
     return this.httpClient.post(this.BASE_URL + "question", question);
   }
 
-  postAnswer(question: number, answer: string) {
-    return this.httpClient.post(this.BASE_URL + `question/${question}/comment`, answer);
+  postAnswer(questionId: number, answer: string) {
+    return this.httpClient.post(this.BASE_URL + `question/${questionId}/comment`, answer);
   }
 
   upvote(messageId: number) {

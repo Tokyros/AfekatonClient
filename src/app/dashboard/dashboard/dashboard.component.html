@@ -1,5 +1,5 @@
 <div dir="rtl">
-  <button (click)="openQuestionDialog()" mat-fab color="primary" class="fa fa-plus" style="font-size: xx-large; position: relative; top: 10px; right: 10px"></button>
+  <button (click)="openNewQuestionDialog()" mat-fab color="primary" class="fa fa-plus" style="font-size: xx-large; position: relative; top: 10px; right: 10px"></button>
 
     <div style="width: 60%; margin: auto">
       <mat-input-container style="width: 84%;">
@@ -19,8 +19,8 @@
                 <mat-chip color="primary" selected="true">{{question.updateDate | date: 'short'}}</mat-chip>
                 <mat-chip color="primary" selected="true">{{question.creationDate | date: 'short'}}</mat-chip>
                 <mat-chip color="primary" selected="true">{{question.relatedCourse.name}}</mat-chip>
-                <mat-chip (click)="responseToQuestion(question)" color="primary" selected="true" class="fa fa-reply"></mat-chip>
-                <mat-chip (click)="openQuestionForEdit(question)" color="warn" selected="true" class="fa fa-edit" *ngIf="question.messageAuthor.username === auth.user.username"></mat-chip>
+                <mat-chip (click)="openResponseDialog(question)" color="primary" selected="true" class="fa fa-reply"></mat-chip>
+                <mat-chip (click)="openEditDialog(question)" color="warn" selected="true" class="fa fa-edit" *ngIf="question.messageAuthor.username === auth.user.username"></mat-chip>
                 <mat-chip (click)="deleteQuestion(question)" color="warn" selected="true" class="fa fa-trash" *ngIf="question.messageAuthor.username === auth.user.username"></mat-chip>
               </mat-chip-list>
               <span style="flex: 1 1 auto"></span>
@@ -32,6 +32,11 @@
 
             <mat-card>
               <div [froalaView]="question.messageContent"></div>
+            </mat-card>
+
+            <br>
+            <mat-card *ngFor="let answer of question.messageComments">
+              <div [froalaView]="answer.messageContent"></div>
             </mat-card>
           </mat-card>
         </div>

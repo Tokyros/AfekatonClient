@@ -1,13 +1,13 @@
 <div dir="rtl">
-  <mat-form-field style="width: 100%">
-    <input [formControl]="coursesFormControl" placeholder="קורס" type="text" matInput [matAutocomplete]="auto">
-    <mat-autocomplete [displayWith]="formatCourse" (optionSelected)="onOptionSelected($event)" #auto>
-      <mat-option *ngFor="let course of courseOptions | async" [value]="course">{{course.id}} - {{course.name}}</mat-option>
+  <mat-form-field *ngIf="!data.isEdit && !data.isResponse" style="width: 100%">
+    <input  [formControl]="coursesFormControl" placeholder="קורס" type="text" matInput [matAutocomplete]="auto">
+    <mat-autocomplete [displayWith]="formatCourse" (optionSelected)="onOptionSelected()" #auto>
+      <mat-option *ngFor="let course of courses" [value]="course">{{course.id}} - {{course.name}}</mat-option>
     </mat-autocomplete>
   </mat-form-field>
 
   <div>
-    <div style="margin: auto" [(froalaModel)]="question.messageContent" [froalaEditor]="opts"></div>
+    <div style="margin: auto" [(froalaModel)]="question.messageContent" [froalaEditor]="textEditorOptions"></div>
 
     <button style="float: right; margin-top: 10px" mat-raised-button [disabled]="!coursesFormControl.valid || !question.messageContent" (click)="submitQuestion()">הוסף שאלה</button>
   </div>

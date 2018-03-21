@@ -3,10 +3,10 @@ import {Router} from "@angular/router";
 import {AuthorizationService} from "../../shared/authorization.service";
 import {QuestionService} from "../question.service";
 import {Question} from "../../shared/models/question";
-import {HttpErrorResponse} from "@angular/common/http";
 import {CourseService} from "../course.service";
-import {MatOptionSelectionChange, MatAutocompleteSelectedEvent, MatDialog} from "@angular/material";
+import {MatDialog} from "@angular/material";
 import {PostQuestionComponent} from "../post-question/post-question.component";
+import {Answer} from "../../shared/models/answer";
 
 @Component({
   selector: 'app-dashboard',
@@ -48,19 +48,32 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  openQuestionDialog(){
-    (<any>this.dialog).open(PostQuestionComponent).afterClosed().subscribe(() => this.updateQuestions())
+  openNewQuestionDialog(){
+    (<any>this.dialog).open(PostQuestionComponent).afterClosed().subscribe(this.postQuestion)
   }
 
-  responseToQuestion(question: Question){
-    (<any>this.dialog).open(PostQuestionComponent, {data: question}).afterClosed().subscribe(console.log)
+  postQuestion = (question: Question) => {
+    this.questionService.submitQuestion(question).subscribe(() => this.updateQuestions());
   }
 
-  openQuestionForEdit(question: Question){
-    (<any>this.dialog).open(PostQuestionComponent, {data: question}).afterClosed().subscribe(() => this.updateQuestions())
+  openResponseDialog(question: Question){
+    let questionId = question.messageId;
+    (<any>this.dialog).open(PostQuestionComponent, {data: {entity: question, isResponse: true}}).afterClosed().subscribe((response) => {
+      this.respondToQuestion(questionId, response);
+    })
   }
 
-  deleteQuestion(question: Question){
+  private respondToQuestion = (questionId: number, response: Answer) => {
+    this.questionService.postAnswer(questionId, response.messageContent).subscribe(() => this.updateQuestions());
+  }
+
+  openEditDialog(question: Question){
+    (<any>this.dialog).open(PostQuestionComponent, {data: {entity: question, isEdit: true}}).afterClosed().subscribe(this.postQuestion)
+  }
+
+  deleteQuestion = (question: Question) => {
     this.questionService.deleteQuestion(question).subscribe(() => this.updateQuestions());
   }
+
+
 }
